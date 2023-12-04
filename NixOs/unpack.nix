@@ -3,13 +3,13 @@
 pkgs.writeShellScriptBin "unpack" '' 
 
 usage() {
-    >&2 printf '%s\n' "Usage: ${0##*/} [-c copy_path] file"
+    >&2 printf '%s\n' "Usage: ''${0##*/} [-c copy_path] file"
     exit 1
 }
 
 
 decompress() {
-    case ${1##*.} in
+    case ''${1##*.} in
         gz|tgz)   gunzip -qdc "$1" ;;
         xz|txz)   xz -qdcT 0 "$1"  ;;
         bz2|tbz)  bunzip2 -qdc "$1" ;;
@@ -22,10 +22,10 @@ run() {
     case $1 in
         *tar.*|*.tgz|*.txz|*.tbz)
             decompress "$1" | \
-            tar -C "${COPY_PATH:-$PWD}" -xpf -
+            tar -C "''${COPY_PATH:-$PWD}" -xpf -
             ;;
         *.xz|*.gz|*.bz2|.zstd|.zst|.lz4)
-            decompress "$1" "${COPY_PATH:-$PWD}/${1%.*}"
+            decompress "$1" "''${COPY_PATH:-$PWD}/''${1%.*}"
             ;;
         *.zip)
             ${pkgs.unzip} -q "$1" -d "$2"
@@ -37,10 +37,10 @@ run() {
             7z x "$1"
             ;;
         *.tar)
-            tar -C "${COPY_PATH:-$PWD}" -xpf "$1"
+            tar -C "''${COPY_PATH:-$PWD}" -xpf "$1"
             ;;
         *)
-            >&2 echo "Unrecognized compression format: ${1##*.}"
+            >&2 echo "Unrecognized compression format: ''${1##*.}"
     esac
 
     echo "Finished unpacking $1"
