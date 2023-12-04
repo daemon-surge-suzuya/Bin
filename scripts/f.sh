@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # f : It uses fzf tool for fuzzy finding and based on certain conditions uses appropriate tool to open the selected file
 
 selected_file=$(find . -type f | fzf)
