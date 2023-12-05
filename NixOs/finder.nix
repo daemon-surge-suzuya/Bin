@@ -19,6 +19,9 @@ case "$file_type" in
     application/pdf)
         ${_ pkgs.zathura} "$selected_file" &
         ;;
+    image/*)
+        ${_ pkgs.sxiv} "$selected_file" &
+        ;;
     video/*)
         ${_ pkgs.mpv} "$selected_file" &
         ;;
