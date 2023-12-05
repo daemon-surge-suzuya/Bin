@@ -15,6 +15,9 @@ case "$file_type" in
     application/pdf)
         zathura "$selected_file" & 
         ;;
+    image/*)
+        sxiv "$selected_file" &
+        ;;
     video/*)
         mpv "$selected_file" & 
         ;;
