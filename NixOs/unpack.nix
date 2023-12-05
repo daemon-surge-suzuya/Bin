@@ -38,7 +38,7 @@ run() {
             ${_ pkgs.unrar} x "$1"
             ;;
         *.7z)
-            ''${_ pkgs.7z} x "$1"
+            ${_ pkgs.p7zip} x "$1"
             ;;
         *.tar)
             tar -C "''${COPY_PATH:-$PWD}" -xpf "$1"
