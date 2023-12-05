@@ -1,4 +1,8 @@
-{ pkgs }:
+{ pkgs, lib, ... }:
+
+let
+_ = lib.getExe;
+in
 
 pkgs.writeShellScriptBin "unpack" '' 
 
@@ -14,7 +18,7 @@ decompress() {
         xz|txz)   xz -qdcT 0 "$1"  ;;
         bz2|tbz)  bunzip2 -qdc "$1" ;;
         zst|zstd) zstd -dqc "$1" ;;
-        lz4)      lz4 -dqc "$1"
+        lz4)      ${_ pkgs.lz4} -dqc "$1"
     esac
 }
 
@@ -28,13 +32,13 @@ run() {
             decompress "$1" "''${COPY_PATH:-$PWD}/''${1%.*}"
             ;;
         *.zip)
-            ${pkgs.unzip} -q "$1" -d "$2"
+            ${_ pkgs.unzip} -q "$1" -d "$2"
             ;;
         *.rar)
-            ${pkgs.unrar} x "$1"
+            ${_ pkgs.unrar} x "$1"
             ;;
         *.7z)
-            7z x "$1"
+            ''${_ pkgs.7z} x "$1"
             ;;
         *.tar)
             tar -C "''${COPY_PATH:-$PWD}" -xpf "$1"
