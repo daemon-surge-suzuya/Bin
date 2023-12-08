@@ -22,7 +22,7 @@ run() {
         *tar.*|*.tgz|*.txz|*.tbz)
             files=$(decompress "$1" | tar -tf -)
             if [ -n "$files" ]; then
-                echo "Unpacking:"
+                # echo "Unpacking..."
                 decompress "$1" | tar -C "${COPY_PATH:-$PWD}" -xpf -
                 echo "$files"
             else
@@ -50,7 +50,7 @@ run() {
             files=$(tar -tf "$1")
             if [ -n "$files" ]; then
                 tar -C "${COPY_PATH:-$PWD}" -xpf "$1"
-                echo "Unpacking:"
+                # echo "Unpacking..."
                 echo "$files"
             else
                 >&2 echo "No files to unpack in $1"
