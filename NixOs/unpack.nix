@@ -17,9 +17,9 @@ usage() {
 
 decompress() {
     case ''${1##*.} in
-        gz|tgz)   ${_ pkgs.gunzip} -qdc "$1" ;;
+        gz|tgz)   ${_ pkgs.gzip} -qdc "$1" ;;
         xz|txz)   ${_ pkgs.xz} -qdcT 0 "$1"  ;;
-        bz2|tbz)  ${_ pkgs.bunzip2} -qdc "$1" ;;
+        bz2|tbz)  ${_ pkgs.bzip2} -qdc "$1" ;;
         zst|zstd) ${_ pkgs.zstd} -dqc "$1" ;;
         lz4)      ${_ pkgs.lz4} -dqc "$1" ;;
     esac
