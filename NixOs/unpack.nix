@@ -11,7 +11,7 @@ pkgs.writeShellScriptBin "unpack" ''
 # unpack: Unpacks stuff
 
 usage() {
-    >&2 printf '%s\n' "Usage: ''${0##*/} [-c copy_path] file"
+    >&2 printf '%s\n' "Usage: ''${0##*/} [-c copy_path] <archive> "
     exit 1
 }
 
