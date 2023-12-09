@@ -25,7 +25,7 @@ find_links() {
 
 # Check if the target file is provided as an argument
 if [ "$#" -eq 0 ]; then
-    echo "Usage: $0 -l|-d|-b <target_file>"
+    echo "Usage: $0 -l|-d|-b <target>"
     exit 1
 fi
 
