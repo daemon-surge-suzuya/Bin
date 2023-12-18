@@ -19,10 +19,6 @@ find_links() {
         -exec readlink -f {} \; | sed "s|^|$target_file <- |"
 }
 
-
-
-
-
 # Check if the target file is provided as an argument
 if [ "$#" -eq 0 ]; then
     echo "Usage: $0 -l|-d|-b <target>"
