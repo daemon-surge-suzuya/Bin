@@ -75,22 +75,22 @@ set_wallpaper() {
                 exit 1
             fi
             random_wallpaper=${wallpapers[RANDOM % ${#wallpapers[@]}]}
-            swww img "$random_wallpaper"
+            swww img "$random_wallpaper" --transition-fps 30 --transition-type any 
         elif [ "$animated" = true ]; then
             if ! ls "$1"/*.mp4 "$1"/*.gif > /dev/null 2>&1; then
                 echo "Error: No animated images found in the specified directory"
                 exit 1
             fi
-            swww img "$1"
+            swww img "$1" --transition-fps 30 --transition-type center
         else
             if ! ls "$1"/*.png "$1"/*.jpg "$1"/*.jpeg > /dev/null 2>&1; then
                 echo "Error: No static images found in the specified directory"
                 exit 1
             fi
-            swww img "$1"
+            swww img "$1" --transition-fps 30 --transition-type center 
         fi
     else
-        swww img "$1"
+        swww img "$1" --transition-fps 30 --transition-type center
     fi
 }
 

@@ -23,6 +23,8 @@ case "$file_type" in
         ;;
     text/*)
         if command -v nvim &> /dev/null; then
+            neovide "$selected_file"
+        elif command -v vim &> /dev/null; then
             nvim "$selected_file"
         elif command -v vim &> /dev/null; then
             vim "$selected_file"

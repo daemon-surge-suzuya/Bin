@@ -27,7 +27,9 @@ case "$file_type" in
         ;;
     text/*)
         if command -v nvim &> /dev/null; then
-            ${_ pkgs.neovim} "$selected_file"
+            ${_ pkgs.neovide} "$selected_file"
+        elif command -v vim &> /dev/null; then
+            neovim "$selected_file"
         elif command -v vim &> /dev/null; then
             vim "$selected_file"
         else
