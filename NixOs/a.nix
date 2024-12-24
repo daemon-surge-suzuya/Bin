@@ -5,6 +5,7 @@ _ = lib.getExe;
 in 
 
 pkgs.writeShellScriptBin "a" ''
+
 usage() {
     echo "Usage: $0 [OPTIONS] <input_file> [output_file]"
     echo "Options:"
@@ -15,57 +16,45 @@ usage() {
     exit 1
 }
 
-OUTPUT_FILE="output.mp3"
+DEFAULT_OUTPUT_EXTENSION=".mp4"
+OUTPUT_FILE="output"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         -e|--extra-audio)
-            EXTRA_AUDIO=true
-            shift
-            ;;
+            EXTRA_AUDIO=true; OUTPUT_EXTENSION=".mp3"; shift ;;
         -c|--comp-vid)
-            COMPRESS_VIDEO=true
-            shift
-            ;;
+            COMPRESS_VIDEO=true; OUTPUT_EXTENSION=".mp4"; shift ;;
         -a|--comp-aud)
-            COMPRESS_AUDIO=true
-            shift
-            ;;
+            COMPRESS_AUDIO=true; OUTPUT_EXTENSION=".mp3"; shift ;;
         -h|--help)
-            usage
-            ;;
+            usage ;;
         *)
-            break
-            ;;
+            break ;;
     esac
 done
 
-if [[ $# -lt 1 ]]; then
-    echo "Error: Input file not specified."
-    usage
-fi
-
+[[ $# -lt 1 ]] && { echo "Error: Input file not specified."; usage; }
 INPUT_FILE="$1"
-
-if [[ $# -eq 2 ]]; then
-    OUTPUT_FILE="$2"
-fi
+[[ $# -eq 2 ]] && OUTPUT_FILE="$2"
+OUTPUT_FILE="$OUTPUT_FILE''${OUTPUT_EXTENSION:-$DEFAULT_OUTPUT_EXTENSION}"
 
 if [ "$EXTRA_AUDIO" = true ]; then
-    ${_ pkgs.ffmpeg} -i "$INPUT_FILE" -vn -acodec mp3 -ab 256k "$OUTPUT_FILE"
+    ffmpeg -i "$INPUT_FILE" -vn -acodec mp3 -ab 256k "$OUTPUT_FILE"
     echo "Audio extracted successfully to $OUTPUT_FILE"
 fi
 
 if [ "$COMPRESS_VIDEO" = true ]; then
-    ${_ pkgs.ffmpeg} -i "$INPUT_FILE" -vcodec libx264 -crf 23 "$OUTPUT_FILE"
+    ffmpeg -i "$INPUT_FILE" -vcodec libx264 -crf 23 "$OUTPUT_FILE"
     echo "Video compressed successfully to $OUTPUT_FILE"
 fi
 
 if [ "$COMPRESS_AUDIO" = true ]; then
-    ${_ pkgs.ffmpeg} -i "$INPUT_FILE" -acodec libmp3lame -ab 128k "$OUTPUT_FILE"
+    ffmpeg -i "$INPUT_FILE" -acodec libmp3lame -ab 128k "$OUTPUT_FILE"
     echo "Audio compressed successfully to $OUTPUT_FILE"
 fi
 
 exit 0
+
 
 ''

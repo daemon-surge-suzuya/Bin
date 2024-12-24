@@ -2,7 +2,7 @@
 
 # f : It uses fzf tool for fuzzy finding and based on certain conditions uses appropriate tool to open the selected file
 
-selected_file=$(find . -type f | fzf)
+selected_file=$(find . -type f ! -path '*/.*' | fzf)
 
 if [ -z "$selected_file" ]; then
     echo "No file selected. Exiting."
@@ -23,9 +23,9 @@ case "$file_type" in
         ;;
     text/*)
         if command -v nvim &> /dev/null; then
-            neovide "$selected_file"
-        elif command -v vim &> /dev/null; then
             nvim "$selected_file"
+        elif command -v vim &> /dev/null; then
+            neovide "$selected_file"
         elif command -v vim &> /dev/null; then
             vim "$selected_file"
         else
@@ -34,8 +34,7 @@ case "$file_type" in
         fi
         ;;
     *)
-        echo "Unsupported file type: $file_type. Exiting."
-        exit 1
+        xdg-open "$selected_file" & disown
         ;;
 esac
 
